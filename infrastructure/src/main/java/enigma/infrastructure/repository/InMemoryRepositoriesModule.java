@@ -7,7 +7,7 @@ import enigma.application.repository.UserRepository;
 
 public class InMemoryRepositoriesModule extends AbstractModule {
     @Provides
-    static UserRepository provideUserRepository() {
-        return new InMemoryUserRepository();
+    static UserRepository provideUserRepository(InMemoryUserRepository userRepository) {
+        return userRepository;
     }
 }
