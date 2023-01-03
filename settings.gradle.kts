@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "enigma"
-include("startup", "domain", "application", "infrastructure")
+include("startup", "common", "user")

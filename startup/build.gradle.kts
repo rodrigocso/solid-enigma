@@ -8,9 +8,4 @@ application {
 }
 
 dependencies {
-    implementation(project(":application"))
-    implementation(project(":domain"))
-    implementation(project(":infrastructure"))
-
-    implementation("com.google.inject:guice")
 }
