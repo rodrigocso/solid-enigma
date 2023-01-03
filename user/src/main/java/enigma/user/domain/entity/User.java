@@ -1,5 +1,8 @@
 package enigma.user.domain.entity;
 
+import enigma.user.domain.service.CryptService;
+import enigma.user.domain.service.Sha512CryptService;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,13 +11,15 @@ import java.util.Set;
 public class User extends BaseEntity {
     private String username;
     private String password;
+    private String salt;
     private final Set<Role> roles;
     private final Set<String> scopes;
 
     private User(Builder builder) {
         super(builder.id);
         username = builder.username;
-        password = builder.password;
+        salt = builder.cryptService.randomSalt();
+        password = builder.cryptService.crypt(builder.password, salt);
         roles = (builder.roles != null) ? builder.roles : new HashSet<>();
         scopes = (builder.scopes != null) ? builder.scopes : new HashSet<>();
     }
@@ -22,9 +27,10 @@ public class User extends BaseEntity {
     public static class Builder {
         private final String id;
         private String username;
-        private String password;
+        private String password = "";
         private Set<Role> roles;
         private Set<String> scopes;
+        private CryptService cryptService = Sha512CryptService.INSTANCE;
 
         public Builder(String id) {
             this.id = id;
@@ -50,6 +56,11 @@ public class User extends BaseEntity {
             return this;
         }
 
+        public Builder cryptService(CryptService cryptService) {
+            this.cryptService = cryptService;
+            return this;
+        }
+
         public User build() {
             return new User(this);
         }
@@ -64,11 +75,20 @@ public class User extends BaseEntity {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        setPassword(password, Sha512CryptService.INSTANCE);
     }
 
-    public boolean verifyPassword(String password) {
-        return password.equals(this.password);
+    public void setPassword(String password, CryptService cryptService) {
+        this.salt = cryptService.randomSalt();
+        this.password = cryptService.crypt(password, salt);
+    }
+
+    public boolean verifyPassword(String enteredPassword) {
+        return verifyPassword(enteredPassword, Sha512CryptService.INSTANCE);
+    }
+
+    public boolean verifyPassword(String enteredPassword, CryptService cryptService) {
+        return password.equals(cryptService.crypt(enteredPassword, salt));
     }
 
     public boolean addScope(String scope) {

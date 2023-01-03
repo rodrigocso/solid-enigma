@@ -27,17 +27,9 @@ public class InMemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public void create(User user) {
-        usersData.put(user.getId(), user);
-    }
-
-    @Override
-    public void update(User user) throws EntityNotFoundException, VersionMismatchException {
-        if (!usersData.containsKey(user.getId())) {
-            throw new EntityNotFoundException();
-        }
-
-        if (user.getVersion() != usersData.get(user.getId()).getVersion()) {
+    public void save(User user) throws VersionMismatchException {
+        if (usersData.containsKey(user.getId()) &&
+                usersData.get(user.getId()).getVersion() > user.getVersion()) {
             throw new VersionMismatchException();
         }
 

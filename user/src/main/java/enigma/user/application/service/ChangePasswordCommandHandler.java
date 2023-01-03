@@ -28,7 +28,7 @@ public class ChangePasswordCommandHandler extends RequestHandler<ChangePasswordC
         }
 
         user.setPassword(command.newPassword());
-        userRepository.update(user);
+        userRepository.save(user);
 
         return null;
     }

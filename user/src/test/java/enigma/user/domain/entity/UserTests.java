@@ -1,6 +1,7 @@
 package enigma.user.domain.entity;
 
 import com.google.common.collect.Sets;
+import enigma.user.domain.service.Sha512CryptService;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

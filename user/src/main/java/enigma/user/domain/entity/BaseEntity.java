@@ -2,7 +2,7 @@ package enigma.user.domain.entity;
 
 public abstract class BaseEntity {
     protected final String id;
-    protected int version = 1;
+    protected int version = 0;
 
     protected BaseEntity(String id) {
         this.id = id;

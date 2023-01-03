@@ -44,8 +44,8 @@ public class CreateUserCommandTests {
     }
 
     @Test
-    void givenUsernameIsTaken_whenCreateUser_thenThrowUsernameTakenException() {
-        userRepository.create(new User.Builder("user_id").username("root").build());
+    void givenUsernameIsTaken_whenCreateUser_thenThrowUsernameTakenException() throws Exception {
+        userRepository.save(new User.Builder("user_id").username("root").build());
 
         var command = new CreateUserCommand("root", "1234");
         Throwable thrown = catchThrowable(() -> mediator.send(command).join());
