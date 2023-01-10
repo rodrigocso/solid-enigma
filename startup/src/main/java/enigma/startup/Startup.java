@@ -1,7 +1,10 @@
 package enigma.startup;
 
+import io.vertx.core.Vertx;
+
 public class Startup {
     public static void main(String[] args) {
-        System.out.println("Startup executed.");
+        Vertx vertx = Vertx.vertx();
+        vertx.deployVerticle(new HelloVerticle());
     }
 }

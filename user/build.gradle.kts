@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(project(":common"))
 
-    implementation("commons-codec:commons-codec:1.15")
     implementation("com.google.inject:guice")
+    implementation("io.vertx:vertx-core")
+    implementation("commons-codec:commons-codec:1.15")
 }
